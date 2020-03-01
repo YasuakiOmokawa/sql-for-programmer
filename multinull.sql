@@ -29,10 +29,49 @@ CREATE view Group_MultiNull
   notnull_cnt,
   na_cnt,
   missing_cnt,
-  approximate_cnt, -- 近似値の数
+  -- 近似値の数
+  approximate_cnt,
   approx_1_cnt,
   approx_5_cnt,
   approx_25_cnt,
   approx_big_cnt
 )
 as
+  select
+    groupcol,
+    sum(valcol),
+    avg(valcol),
+    max(valcol),
+    min(valcol),
+    count(*),
+    sum(case when valcol_null = 0 then 1 else 0 end) as notnull_cnt,
+    sum(case when valcol_null = 1 then 1 else 0 end) as na_cnt,
+    sum(case when valcol_null = 2 then 1 else 0 end) as missing_cnt,
+    sum(case when valcol_null in (3,4,5,6) then 1 else 0 end) as approximate_cnt,
+    sum(case when valcol_null = 3 then 1 else 0 end) as approx_1_cnt,
+    sum(case when valcol_null = 4 then 1 else 0 end) as approx_5_cnt,
+    sum(case when valcol_null = 5 then 1 else 0 end) as approx_25_cnt,
+    sum(case when valcol_null = 6 then 1 else 0 end) as approx_big_cnt
+  from MultiNull
+  group by groupcol;
+
+SELECT
+  groupcol,
+  valcol_sum,
+  valcol_avg,
+  valcol_max,
+  valcol_min,
+  (case when row_cnt = notnull_cnt
+        then 'All are known'
+        else 'Not all are known'
+        end) as warning_message,
+  row_cnt,
+  notnull_cnt,
+  na_cnt,
+  missing_cnt,
+  approximate_cnt,
+  approx_1_cnt,
+  approx_5_cnt,
+  approx_25_cnt,
+  approx_big_cnt
+from Group_MultiNull;
