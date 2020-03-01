@@ -17,3 +17,22 @@ create table MultiNull
   PRIMARY KEY (groupcol, keycol),
   check(valcol = 0 or valcol_null not in (1,2))
 );
+
+CREATE view Group_MultiNull
+(
+  groupcol,
+  valcol_sum,
+  valcol_avg,
+  valcol_max,
+  valcol_min,
+  row_cnt,
+  notnull_cnt,
+  na_cnt,
+  missing_cnt,
+  approximate_cnt, -- 近似値の数
+  approx_1_cnt,
+  approx_5_cnt,
+  approx_25_cnt,
+  approx_big_cnt
+)
+as
