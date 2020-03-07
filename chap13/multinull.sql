@@ -55,6 +55,7 @@ as
   from MultiNull
   group by groupcol;
 
+
 SELECT
   groupcol,
   valcol_sum,
