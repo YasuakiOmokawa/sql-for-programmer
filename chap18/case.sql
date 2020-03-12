@@ -25,3 +25,11 @@ end
 cast
 (case when 1 = 1 then null else null
 end as integer)
+
+case iso_sex_code
+when 0 then 'Unknown'
+when 1 then 'Male'
+when 2 then 'Female'
+when 9 then 'N/A'
+else null
+end
