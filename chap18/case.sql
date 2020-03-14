@@ -33,3 +33,13 @@ when 2 then 'Female'
 when 9 then 'N/A'
 else null
 end
+
+case foo
+when 1 then 'bar'
+when null then 'no bar'
+end
+
+case when foo = 1 then 'bar'
+  when foo = null then 'no_bar' -- it's just a problem!
+  else null
+end
