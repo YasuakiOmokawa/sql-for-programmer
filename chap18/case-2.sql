@@ -37,3 +37,8 @@ from
   PersonnelSkills
 group by
   esp_id;
+
+-- Convert True or False
+constraint implication_example
+  check(case when dept_nhr = 'D1'
+    then case when salary < )
