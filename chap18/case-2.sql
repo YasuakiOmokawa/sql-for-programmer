@@ -39,6 +39,12 @@ group by
   esp_id;
 
 -- Convert True or False
-constraint implication_example
-  check(case when dept_nhr = 'D1'
-    then case when salary < )
+constraint implication_example check(
+  case
+    when dept_nbr = 'D1' then case
+      when salary < 44000.00 then 'T'
+      else 'F'
+    end
+    else 'F'
+  end = 'T'
+);
