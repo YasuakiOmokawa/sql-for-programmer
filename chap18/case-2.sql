@@ -40,10 +40,16 @@ end = 'T' );
 
 
 -- スミステルルール
- create table
-	Foobar_DDL_1 ( a char(1) check (a in ('T',
-	'F')),
-	b char(1) check (b in ('T',
-	'F')),
-	constraint implication_example check (not (A = 'T')
-	or (B = 'T')) );
+create table　Foobar_DDL_1
+(
+	a char(1) check (a in ('T',　'F')),
+	b char(1) check (b in ('T',　'F')),
+	constraint implication_example
+		check (not (A = 'T')　or (B = 'T'))
+);
+
+
+-- インサート
+insert into foobar_ddl_1 values ('T', 'T');
+insert into foobar_ddl_1 values ('T', 'F'); -- 制約変換で失敗
+
