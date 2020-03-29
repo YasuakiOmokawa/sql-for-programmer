@@ -38,7 +38,6 @@ case
 	else 'F'
 end = 'T' );
 
-
 -- スミステルルール
 create table　Foobar_DDL_1
 (
@@ -48,8 +47,14 @@ create table　Foobar_DDL_1
 		check (not (A = 'T')　or (B = 'T'))
 );
 
-
 -- インサート
 insert into foobar_ddl_1 values ('T', 'T');
 insert into foobar_ddl_1 values ('T', 'F'); -- 制約変換で失敗
+insert into foobar_ddl_1 values ('T', NULL);
+insert into foobar_ddl_1 values ('F', 'T');
+insert into foobar_ddl_1 values ('F', 'F');
+insert into foobar_ddl_1 values ('F', NULL);
+insert into foobar_ddl_1 values (NULL, 'T');
 
+
+select * from foobar_ddl_1;
