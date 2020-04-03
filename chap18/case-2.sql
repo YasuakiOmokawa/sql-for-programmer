@@ -39,7 +39,7 @@ case
 end = 'T' );
 
 -- スミステルルール
-create table　Foobar_DDL_1
+create table　foobar_ddl
 (
 	a char(1) check (a in ('T',　'F')),
 	b char(1) check (b in ('T',　'F')),
@@ -48,13 +48,15 @@ create table　Foobar_DDL_1
 );
 
 -- インサート
-insert into foobar_ddl_1 values ('T', 'T');
-insert into foobar_ddl_1 values ('T', 'F'); -- 制約変換で失敗
-insert into foobar_ddl_1 values ('T', NULL);
-insert into foobar_ddl_1 values ('F', 'T');
-insert into foobar_ddl_1 values ('F', 'F');
-insert into foobar_ddl_1 values ('F', NULL);
-insert into foobar_ddl_1 values (NULL, 'T');
+insert into foobar_ddl values ('T', 'T');
+insert into foobar_ddl values ('T', 'F'); -- 制約変換で失敗
+insert into foobar_ddl values ('T', NULL);
+insert into foobar_ddl values ('F', 'T');
+insert into foobar_ddl values ('F', 'F');
+insert into foobar_ddl values ('F', NULL);
+insert into foobar_ddl values (NULL, 'T');
+insert into foobar_ddl values (NULL, 'F');
+insert into foobar_ddl values (NULL, NULL);
 
+select * from foobar_ddl;
 
-select * from foobar_ddl_1;
