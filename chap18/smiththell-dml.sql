@@ -34,5 +34,7 @@ where
     then
       case when b = 'T'
       then 1 else 0 end
-    else 1 end = 1;
-    
+    else 1 end = 1
+;
+
+

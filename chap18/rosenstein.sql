@@ -1,38 +1,9 @@
-create table Foobar_DML
-(
-  a char(1) check (a in ('T', 'F')),
-  b char(1) check (b in ('T', 'F'))
+-- 特性関数とは、trueの場合に1、falseの場合に0を返す関数
+create table Foobar_18_3
+(key_col integer not null primary key,
+c1 varchar(20) not null,
+c2 varchar(20) not null,
+c3 varchar(20) not null,
+c4 varchar(20) not null,
+c5 varchar(20) not null
 );
-
-insert into foobar_dml
-values
-  ('T', 'T'),
-  ('T', 'F'),
-  ('T', NULL),
-  ('F', 'T'),
-  ('F', 'F'),
-  ('F', NULL),
-  (null, 'T'),
-  (null, 'F'),
-  (null, null);
-
--- 検索条件にスミステルルールを使う
-select
-  *
-from
-  foobar_dml
-where
-  ( not (a = 'T') or (B = 'T') )
-;
-
--- セルコオリジナルバージョンのクエリ
-select *
-  from foobar_dml
-where
-  case
-    when a = 'T'
-    then
-      case when b = 'T'
-      then 1 else 0 end
-    else 1 end = 1;
-    
