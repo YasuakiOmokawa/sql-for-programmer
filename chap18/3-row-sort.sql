@@ -28,5 +28,3 @@ set
 where
   c4 > c5 or c1 > c2
 ;
-        
-  
