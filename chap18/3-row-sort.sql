@@ -34,6 +34,6 @@ update
   foobar_18_3
 set
   c1 = c2, c2 = c1
-where
-  c1 > c2
+-- where
+--   c1 > c2
 ;
