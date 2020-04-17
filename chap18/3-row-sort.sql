@@ -17,7 +17,7 @@ values
   ,(3, 'D', 'E', 'C', 'A', 'B')
 ;
 select * from foobar_18_3;
--- Swap(c1, c2) and Swap(c4, c5);
+-- Swap(c1, c2) and Swap(c4, c5) order by asc;
 update
   foobar_18_3 f1, foobar_18_3 f2
 set
