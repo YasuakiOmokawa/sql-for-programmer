@@ -14,19 +14,19 @@ insert into
 values
   (1, 'A', 'B', 'C', 'D', 'E')
   ,(2, 'E', 'D', 'C', 'B', 'A')
-  ,(3, 'D', 'E', 'C', 'B', 'A')
+  ,(3, 'D', 'E', 'C', 'A', 'B')
 ;
 select * from foobar_18_3;
 -- Swap(c1, c2) and Swap(c4, c5);
 update
-  foobar_18_3
+  foobar_18_3 f1, foobar_18_3 f2
 set
-  c1 = case when c1 <= c2 then c1 else c2 end,
-  c2 = case when c1 <= c2 then c2 else c1 end
---   c4 = case when c4 <= c5 then c4 else c5 end,
---   c5 = case when c4 <= c5 then c5 else c4 end
+  f1.c1 = case when f1.c1 <= f1.c2 then f1.c1 else f1.c2 end,
+  f2.c2 = case when f2.c1 <= f2.c2 then f2.c2 else f2.c1 end,
+  f1.c4 = case when f1.c4 <= f1.c5 then f1.c4 else f1.c5 end,
+  f2.c5 = case when f2.c4 <= f2.c5 then f2.c5 else f2.c4 end
 where
-  c4 > c5 or c1 > c2
+  f1.c4 > f1.c5 or f1.c1 > f1.c2
 ;
 
 -- swap(c1, c2)
