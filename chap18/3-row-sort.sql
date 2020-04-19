@@ -37,3 +37,30 @@ set
 -- where
 --   c1 > c2
 ;
+
+-- swap(x, y) and swap(x, z)
+create table Foobar_18_3_xyz
+(key_col integer not null primary key,
+x varchar(20) not null,
+y varchar(20) not null,
+z varchar(20) not null
+);
+delete from foobar_18_3_xyz;
+insert into
+  foobar_18_3_xyz
+values
+  (1, 'A', 'B', 'C')
+  ,(2, 'E', 'D', 'C')
+  ,(3, 'D', 'E', 'C')
+;
+select * from foobar_18_3_xyz;
+update
+  foobar_18_3_xyz
+set
+  x  = case when x between y and z then y
+
+  
+  
+  
+  
+  
