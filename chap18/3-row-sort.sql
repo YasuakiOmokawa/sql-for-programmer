@@ -57,7 +57,17 @@ select * from foobar_18_3_xyz;
 update
   foobar_18_3_xyz
 set
-  x  = case when x between y and z then y
+  x  = case
+          when x between y and z then y
+          when z between y and x then y
+          when y between z and x then z
+          when x between z and y then z
+          else x end,
+  y = case
+          when x between y and z then x
+          when x between z and y then x
+          when z between x and y then z 
+    
 
   
   
