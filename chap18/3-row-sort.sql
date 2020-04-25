@@ -45,6 +45,7 @@ x varchar(20) not null,
 y varchar(20) not null,
 z varchar(20) not null
 );
+
 delete from foobar_18_3_xyz;
 insert into
   foobar_18_3_xyz
@@ -55,22 +56,27 @@ values
 ;
 select * from foobar_18_3_xyz;
 update
-  foobar_18_3_xyz
+  foobar_18_3_xyz f1,
+  foobar_18_3_xyz f2,
+  foobar_18_3_xyz f3
 set
-  x  = case
-          when x between y and z then y
-          when z between y and x then y
-          when y between z and x then z
-          when x between z and y then z
-          else x end,
-  y = case
-          when x between y and z then x
-          when x between z and y then x
-          when z between x and y then z 
-    
-
-  
-  
-  
-  
-  
+  f1.x  = case
+          when f1.x between f1.y and f1.z then f1.y
+          when f1.z between f1.y and f1.x then f1.y
+          when f1.y between f1.z and f1.x then f1.z
+          when f1.x between f1.z and f1.y then f1.z
+          else f1.x end,
+  f2.y = case
+          when f2.x between f2.y and f2.z then f2.x
+          when f2.x between f2.z and f2.y then f2.x
+          when f2.z between f2.x and f2.y then f2.z
+          else f2.y end,
+  f3.z = case
+          when f3.x between f3.z and f3.y then f3.y
+          when f3.z between f3.x and f3.y then f3.y
+          when f3.y between f3.z and f3.x then f3.x
+          when f3.z between f3.y and f3.x then f3.x
+          else f3.z end
+where
+  f1.x > f1.z or f1.x > f1.y
+;
