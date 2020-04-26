@@ -53,6 +53,7 @@ values
   (1, 'A', 'B', 'C')
   ,(2, 'E', 'D', 'C')
   ,(3, 'D', 'E', 'C')
+  ,(4, 'A', 'C', 'B')
 ;
 select * from foobar_18_3_xyz;
 update
