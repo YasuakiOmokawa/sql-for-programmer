@@ -85,14 +85,34 @@ group by
 ;
 
 -- CHECK CONDITION IF test TABLE
+drop table testsal;
 CREATE TABLE TestSal
 (sex char(1),
 salary integer,
   CONSTRAINT check_salary CHECK
-    ( CASE
-        WHEN sex = '2'
-        THEN CASE
-          WHEN salary <= 200000
-          THEN 1 ELSE 0 END
-          ELSE 1 END = 1))
+    ( CASE WHEN sex = '2'
+           THEN CASE WHEN salary <= 200000
+                THEN 1 ELSE 0 END
+           ELSE 1 END = 1))
 ;
+delete from testsal;
+INSERT INTO TestSal VALUES
+  (1, 200000)
+ ,(1, 300000)
+ ,(1, null)
+ ,(2, 20000)
+ ,(1, 300000)
+;
+-- error
+INSERT INTO TestSal VALUES(2, 300000);
+INSERT INTO TestSal VALUES(2, null);
+
+-- Update table on complicated condition
+drop table sometable;
+CREATE TABLE SomeTable
+(p_key CHAR(1) PRIMARY KEY,
+ col_1 INTEGER NOT NULL, 
+ col_2 CHAR(2) NOT NULL);
+
+insert table sometable values
+  ('a')
