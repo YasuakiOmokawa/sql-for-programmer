@@ -107,7 +107,18 @@ INSERT INTO TestSal VALUES
 INSERT INTO TestSal VALUES(2, 300000);
 INSERT INTO TestSal VALUES(2, null);
 
--- Update table on complicated condition
+-- update table with complicated condition
+DROP TABLE personnel;
+CREATE TABLE personnel
+(
+  name varchar(32),
+  salary integer
+);
+DELETE FROM personnel;
+INSERT INTO personnel;
+
+
+-- Update table on complicated condition 2
 drop table sometable;
 CREATE TABLE SomeTable
 (p_key CHAR(1) PRIMARY KEY,
