@@ -115,8 +115,13 @@ CREATE TABLE personnel
   salary integer
 );
 DELETE FROM personnel;
-INSERT INTO personnel;
-
+INSERT INTO personnel VALUES
+  ('相田', 270000)
+ ,('神崎', 324000)
+ ,('木村', 220000)
+ ,('斉藤', 290000)
+;
+select * from personnel;
 
 -- Update table on complicated condition 2
 drop table sometable;
