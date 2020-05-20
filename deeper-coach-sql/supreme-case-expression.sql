@@ -122,6 +122,14 @@ INSERT INTO personnel VALUES
  ,('斉藤', 290000)
 ;
 select * from personnel;
+update personnel
+set salary = case when salary >= 300000
+             then salary * 0.9
+             when salary >= 250000 and salary < 280000
+             then salary * 1.2
+             else salary end
+;
+
 
 -- Update table on complicated condition 2
 drop table sometable;
