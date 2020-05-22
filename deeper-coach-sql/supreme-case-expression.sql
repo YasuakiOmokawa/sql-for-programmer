@@ -132,11 +132,15 @@ set salary = case when salary >= 300000
 
 
 -- Update table on complicated condition 2
-drop table sometable;
+drop table SomeTable;
 CREATE TABLE SomeTable
 (p_key CHAR(1) PRIMARY KEY,
  col_1 INTEGER NOT NULL, 
- col_2 CHAR(2) NOT NULL);
-
-insert table sometable values
-  ('a')
+ col_2 CHAR(2) NOT NULL)
+;
+insert into SomeTable values
+  ('a', '1', 'あ')
+ ,('b', '2', 'い')
+ ,('c', '3', 'う')
+;
+select * from sometable;
