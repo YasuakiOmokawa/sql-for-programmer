@@ -130,7 +130,6 @@ set salary = case when salary >= 300000
              else salary end
 ;
 
-
 -- Update table on complicated condition 2
 drop table SomeTable;
 CREATE TABLE SomeTable
@@ -144,3 +143,34 @@ insert into SomeTable values
  ,('c', '3', 'う')
 ;
 select * from sometable;
+-- do not success on MySQL!
+update sometable
+  set p_key = case when p_key = 'a' then 'b'
+                   when p_key = 'b' then 'a'
+                   else p_key end
+where p_key in ('a', 'b')
+;
+
+-- テーブル同士のマッチング
+create table coursemaster
+(course_id integer primary key,
+ course_name varchar(32) not null
+);
+insert into coursemaster values
+ (1, '経理入門')
+,(2, '財務知識')
+,(3, '簿記検定')
+,(4, '税理士')
+;
+select * from coursemaster;
+create table opencourses
+(
+  month integer,
+  course_id integer,
+  primary key(month, course_id)
+);
+insert into opencourses values
+(
+  
+);
+
