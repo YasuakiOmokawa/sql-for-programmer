@@ -169,8 +169,28 @@ create table opencourses
   course_id integer,
   primary key(month, course_id)
 );
+select * from opencourses o2 ;
 insert into opencourses values
-(
-  
-);
-
+  (200706, 1)
+ ,(200706, 3)
+ ,(200706, 4)
+ ,(200707, 4)
+ ,(200708, 2)
+ ,(200708, 4)
+;
+-- matching table using exists
+select cm.course_name,
+  case when exists
+    (select course_id from opencourses oc
+      where month = 200706 and oc.course_id = cm.course_id) then '○'
+    else '×' end as "6月",
+  case when exists
+    (select course_id from opencourses oc
+      where month = 200707 and oc.course_id = cm.course_id) then '○'
+    else '×' end as "7月",
+  case when exists 
+    (select course_id from opencourses oc
+      where month = 200708 and oc.course_id = cm.course_id) then '○'
+    else '×' end as "8月" 
+from coursemaster cm
+;
