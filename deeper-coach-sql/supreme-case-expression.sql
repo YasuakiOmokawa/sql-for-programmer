@@ -195,7 +195,7 @@ select cm.course_name,
 from coursemaster cm
 ;
 
--- CASE式の中で集約関数を使う
+-- use case statement in grouping statement
 CREATE TABLE StudentClub
 (std_id  INTEGER,
  club_id INTEGER,
@@ -213,7 +213,12 @@ INSERT INTO StudentClub VALUES(500, 6, '囲碁',        'N');
 select * from studentclub s ;
 -- grouping match in case statement
 select std_id,
-  case when count(*) = 1 -- only have primary club
-    when max(club_id)
-  else max(case when main_club_flg = 'Y')
+  case when count(*) = 1 then max(club_id) -- only have primary club
+       else max(case when main_club_flg = 'Y' then club_id else null end)
+       end as main_club
+from studentclub
+group by std_id
+;
+
+       
 
