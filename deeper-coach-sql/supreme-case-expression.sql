@@ -210,6 +210,7 @@ INSERT INTO StudentClub VALUES(200, 4, 'サッカー',    'N');
 INSERT INTO StudentClub VALUES(300, 4, 'サッカー',    'N');
 INSERT INTO StudentClub VALUES(400, 5, '水泳',        'N');
 INSERT INTO StudentClub VALUES(500, 6, '囲碁',        'N');
+INSERT INTO StudentClub VALUES(500, 7, '将棋',        'N');
 select * from studentclub s ;
 -- grouping match in case statement
 select std_id,
@@ -219,6 +220,3 @@ select std_id,
 from studentclub
 group by std_id
 ;
-
-       
-
