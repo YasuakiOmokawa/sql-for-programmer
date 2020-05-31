@@ -220,3 +220,31 @@ select std_id,
 from studentclub
 group by std_id
 ;
+
+-- training 1-1. max value in multipul column
+create table greatests
+(id CHAR(1), x integer, y integer, z integer, primary key(id));
+insert into greatests values('A', 1, 2, 3);
+insert into greatests values('B', 5, 5, 2);
+insert into greatests values('C', 4, 7, 1);
+insert into greatests values('D', 3, 3, 8);
+delete from greatests;
+select * from greatests;
+-- in 2 columns
+select
+  id,
+  case when x >= y then x else y end as greatest
+from greatests
+;
+-- in 3 columns
+select
+  id,
+  case
+  when x between y and z then z
+  when y between x and z then z
+  when z between x and y then y
+  when x between z and y then y
+  else x end as greatest
+from greatests
+;
+
