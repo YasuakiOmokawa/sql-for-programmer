@@ -236,7 +236,7 @@ select
   case when x >= y then x else y end as greatest
 from greatests
 ;
--- in 3 columns
+-- in 3 columns with between
 select
   id,
   case
@@ -247,4 +247,11 @@ select
   else x end as greatest
 from greatests
 ;
-
+-- in 3 columns with nested case
+select
+  id,
+  case when case when x < y then y else x end < z then z
+       else case when x < y then y else x end
+  end as greatest
+from greatests;
+-- using max() 
