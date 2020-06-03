@@ -254,4 +254,20 @@ select
        else case when x < y then y else x end
   end as greatest
 from greatests;
--- using max() 
+-- using max() with horizonally
+select
+  id,
+  max(col) as greatest
+from
+  (select id, x as col from greatests
+   union all
+   select id, y as col from greatests
+   union all
+   select id, z as 
+
+
+
+
+
+
+
