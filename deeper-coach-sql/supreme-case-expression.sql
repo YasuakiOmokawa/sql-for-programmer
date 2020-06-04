@@ -263,8 +263,13 @@ from
    union all
    select id, y as col from greatests
    union all
-   select id, z as 
+   select id, z as col from greatests) tmp
+group by
+  id
+;
 
+-- exercise 1-2. convert row to column to show sum and review on the top
+select * from poptbl2; 
 
 
 
