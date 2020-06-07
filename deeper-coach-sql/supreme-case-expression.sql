@@ -270,7 +270,13 @@ group by
 
 -- exercise 1-2. convert row to column to show sum and review on the top
 select * from poptbl2; 
+select
+--   case when sex = '1' then '男' else '女' end as '性別',
+--   case when sex = '1' then count(population) else count(population) end as '全国' 
 
+from
+  (select sex, pref_name as pref from poptbl2
+;
 
 
 
