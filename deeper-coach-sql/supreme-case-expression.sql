@@ -269,15 +269,26 @@ group by
 ;
 
 -- exercise 1-2. convert row to column to show sum and review on the top
-select * from poptbl2; 
 select
---   case when sex = '1' then '男' else '女' end as '性別',
---   case when sex = '1' then count(population) else count(population) end as '全国' 
-
+    case when sex = '1' then '男' else '女' end as 性別
+    ,sum(case when pref_name = '徳島' then population else 0 end) as 徳島
+    ,sum(case when pref_name = '香川' then population else 0 end) as 香川
+    ,sum(case when pref_name = '愛媛' then population else 0 end) as 愛媛
+    ,sum(case when pref_name = '高知' then population else 0 end) as 高知
+    ,sum(
+        case when pref_name = '徳島' then population
+             when pref_name = '香川' then population
+             when pref_name = '愛媛' then population
+             when pref_name = '高知' then population
+             else 0 end) as 四国
+    ,sum(population) as すべて
 from
-  (select sex, pref_name as pref from poptbl2
+    poptbl2
+group by
+    sex
+order by
+    sex
 ;
-
 
 
 
