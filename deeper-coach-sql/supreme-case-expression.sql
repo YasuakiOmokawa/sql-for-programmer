@@ -269,6 +269,7 @@ group by
 ;
 
 -- exercise 1-2. convert row to column to show sum and review on the top
+select  * from poptbl2;
 select
     case when sex = '1' then '男' else '女' end as 性別
     ,sum(case when pref_name = '徳島' then population else 0 end) as 徳島
@@ -291,16 +292,90 @@ order by
 ;
 -- 1-2, ver.mick
 select
-  sex,
+  case when sex = '1' then '男' else '女' end as 性別,
   sum(population) as total,
-  sum(case when pref_name = '徳島' then population else 0 end) as col_1 -> tokushima,
-  sum(case when pref_name = '香川' then population else 0 end) as col_1 -> kagawa,
-  sum(case when pref_name = '愛媛' then population else 0 end) as col_1 -> ehime,
-  sum(case when pref_name = '高知' then population else 0 end) as col_1 -> kouchi,
+  sum(case when pref_name = '徳島' then population else 0 end) as 'col_1 -> tokushima',
+  sum(case when pref_name = '香川' then population else 0 end) as 'col_1 -> kagawa',
+  sum(case when pref_name = '愛媛' then population else 0 end) as 'col_1 -> ehime',
+  sum(case when pref_name = '高知' then population else 0 end) as 'col_1 -> kouchi',
   sum(case when pref_name in ('徳島', '香川', '愛媛', '高知') then population else 0 end) as shikoku
 from
   poptbl2
 group by sex;
 
+-- 1-3, create sorted column with order by
+select * from greatests;
 
+-- idea 1, failure
+select
+  case when id = 'B' then id
+       when id = 'A' then id
+       when id = 'D' then id
+       when id = 'C' then id
+       else null end
+from greatests
+;
+
+-- idea 2, correct but elephant
+select id from greatests where id = 'B'
+union
+select id from greatests where id = 'A'
+union
+select id from greatests where id = 'D'
+union
+select id from greatests where id = 'C'
+;
+
+-- idea3, correct and elegant
+select
+  id
+from
+  greatests
+order by
+  case
+    when id = 'B' then 1
+    when id = 'A' then 2
+    when id = 'D' then 3
+    when id = 'C' then 4
+    else null end
+;
+
+select
+  id
+from
+  greatests
+order by
+  case
+    when id = 'D' then 1
+    when id = 'B' then 2
+    when id = 'A' then 3
+    when id = 'C' then 4
+    else null end
+;
+
+-- idea4, answer by mick
+select
+  id
+from
+  greatests
+order by
+  case id
+    when 'B' then 1
+    when 'D' then 2
+    when 'A' then 3
+    when 'C' then 4
+    else null end
+;
+
+select
+  id,
+  case id
+    when 'B' then 1
+    when 'D' then 2
+    when 'A' then 3
+    when 'C' then 4
+    else null end as sorted_col
+from greatests
+order by sorted_col
+;
 
