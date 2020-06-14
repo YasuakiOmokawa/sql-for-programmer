@@ -31,3 +31,30 @@ select
 from
   sales_items;
 
+-- same as above one but define window
+select
+  id
+  , name
+  , selling_price
+  , avg(selling_price) over w as moving_avg
+from
+  sales_items
+window w as (
+  order by id rows between 2 preceding and current row )
+;
+
+-- Load data that is sample of time line 
+CREATE TABLE LoadSample
+(sample_date   DATE PRIMARY KEY,
+ load_val      INTEGER NOT NULL);
+
+INSERT INTO LoadSample VALUES('2018-02-01',   1024);
+INSERT INTO LoadSample VALUES('2018-02-02',   2366);
+INSERT INTO LoadSample VALUES('2018-02-05',   2366);
+INSERT INTO LoadSample VALUES('2018-02-07',    985);
+INSERT INTO LoadSample VALUES('2018-02-08',    780);
+INSERT INTO LoadSample VALUES('2018-02-12',   1000);
+
+select * from loadsample;
+
+select sample_date as cur_date, 
