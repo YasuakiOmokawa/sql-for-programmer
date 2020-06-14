@@ -44,17 +44,89 @@ window w as (
 ;
 
 -- Load data that is sample of time line 
+drop table loadsample;
 CREATE TABLE LoadSample
 (sample_date   DATE PRIMARY KEY,
  load_val      INTEGER NOT NULL);
 
-INSERT INTO LoadSample VALUES('2018-02-01',   1024);
+INSERT INTO LoadSample VALUES('2018-02-08',    780);
 INSERT INTO LoadSample VALUES('2018-02-02',   2366);
 INSERT INTO LoadSample VALUES('2018-02-05',   2366);
-INSERT INTO LoadSample VALUES('2018-02-07',    985);
-INSERT INTO LoadSample VALUES('2018-02-08',    780);
 INSERT INTO LoadSample VALUES('2018-02-12',   1000);
+INSERT INTO LoadSample VALUES('2018-02-07',    985);
+INSERT INTO LoadSample VALUES('2018-02-01',   1024);
 
 select * from loadsample;
+select * from loadsample order by 2;
 
-select sample_date as cur_date, 
+-- Calc 1 day before current row date
+select
+  sample_date as cur_date
+  , min(sample_date) over (
+      order by sample_date asc
+      rows between 1 preceding and 1 preceding) as latest_date
+from
+  loadsample;
+
+-- Calc current load and latest one
+select 
+  sample_date as cur_date
+  , min(sample_date) over (
+      order by sample_date asc
+      rows between 1 preceding and 1 preceding) as latest_date
+  , load_val as cur_load
+  , min(load_val) over(
+    order by sample_date asc
+    rows between 1 preceding and 1 preceding) as latest_load
+from 
+  loadsample
+;
+
+-- Calc current load and diff of latest one
+select 
+  sample_date as cur_date
+  , min(sample_date) over w as latest_date
+  , load_val as cur_load
+  , min(load_val) over w as latest_load
+  , load_val - min(load_val) over w as diff_load
+  , sample_date - min(sample_date) over w as diff_date
+from
+  loadsample
+window w as (
+  order by sample_date asc
+  rows between 1 preceding and 1 preceding )
+order by 1 asc
+;
+
+-- Test follow frame
+select 
+  sample_date as cur_date
+  , min(sample_date) over w as next_date
+  , load_val as cur_load
+  , min(load_val) over w as next_load
+  , min(load_val) over w - load_val as diff_load
+  , min(sample_date) over w - sample_date as diff_date
+from
+  loadsample
+window w as (
+  order by sample_date asc
+  rows between 1 following and 1 following)
+order by 1 asc
+;
+
+-- Range frame
+-- Calc Interval 1 day before
+select 
+  sample_date as cur_date
+  , min(sample_date) over w_1day_before as 1day_before
+  , load_val as cur_load
+  , min(load_val) over w_1day_before as load_1day_before
+from
+  loadsample
+window w_1day_before as (
+  order by sample_date asc
+  range between interval '1' day preceding and interval '1' day preceding)
+order by 1 asc
+;
+
+
