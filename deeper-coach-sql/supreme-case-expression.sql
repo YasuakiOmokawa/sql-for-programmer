@@ -225,6 +225,7 @@ INSERT INTO TestSal VALUES
  ,(2, 20000)
  ,(1, 300000)
 ;
+select * from testsal;
 -- error
 INSERT INTO TestSal VALUES(2, 300000);
 INSERT INTO TestSal VALUES(2, null);
@@ -245,11 +246,10 @@ INSERT INTO personnel VALUES
 ;
 select * from personnel;
 update personnel
-set salary = case when salary >= 300000
-             then salary * 0.9
-             when salary >= 250000 and salary < 280000
-             then salary * 1.2
-             else salary end
+set salary = case
+               when salary >= 300000 then salary * 0.9
+               when salary >= 250000 and salary < 280000 then salary * 1.2
+               else salary end
 ;
 
 -- Update table on complicated condition 2
@@ -333,7 +333,7 @@ INSERT INTO StudentClub VALUES(300, 4, 'サッカー',    'N');
 INSERT INTO StudentClub VALUES(400, 5, '水泳',        'N');
 INSERT INTO StudentClub VALUES(500, 6, '囲碁',        'N');
 INSERT INTO StudentClub VALUES(500, 7, '将棋',        'N');
-select * from studentclub s ;
+select * from studentclub;
 -- grouping match in case statement
 select std_id,
   case when count(*) = 1 then max(club_id) -- only have primary club
@@ -343,7 +343,7 @@ from studentclub
 group by std_id
 ;
 
--- training 1-1. max value in multipul column
+-- exercise 1-1. max value in multipul column
 create table greatests
 (id CHAR(1), x integer, y integer, z integer, primary key(id));
 insert into greatests values('A', 1, 2, 3);
@@ -357,6 +357,7 @@ select
   id,
   case when x >= y then x else y end as greatest
 from greatests
+order by 1
 ;
 -- in 3 columns with between
 select
@@ -368,6 +369,7 @@ select
   when x between z and y then y
   else x end as greatest
 from greatests
+order by 1
 ;
 -- in 3 columns with nested case
 select
@@ -375,11 +377,13 @@ select
   case when case when x < y then y else x end < z then z
        else case when x < y then y else x end
   end as greatest
-from greatests;
--- using max() with horizonally
+from greatests
+order by 1
+;
+-- using max() with vartically -> horizonally
 select
-  id,
-  max(col) as greatest
+  tmp.id,
+  max(tmp.col) as greatest
 from
   (select id, x as col from greatests
    union all
@@ -388,6 +392,7 @@ from
    select id, z as col from greatests) tmp
 group by
   id
+order by 1
 ;
 
 -- exercise 1-2. convert row to column to show sum and review on the top
@@ -415,12 +420,12 @@ order by
 -- 1-2, ver.mick
 select
   case when sex = '1' then '男' else '女' end as 性別,
-  sum(population) as total,
-  sum(case when pref_name = '徳島' then population else 0 end) as 'col_1 -> tokushima',
-  sum(case when pref_name = '香川' then population else 0 end) as 'col_1 -> kagawa',
-  sum(case when pref_name = '愛媛' then population else 0 end) as 'col_1 -> ehime',
-  sum(case when pref_name = '高知' then population else 0 end) as 'col_1 -> kouchi',
-  sum(case when pref_name in ('徳島', '香川', '愛媛', '高知') then population else 0 end) as shikoku
+  sum(population) as すべて,
+  sum(case when pref_name = '徳島' then population else 0 end) as 徳島,
+  sum(case when pref_name = '香川' then population else 0 end) as 香川,
+  sum(case when pref_name = '愛媛' then population else 0 end) as 愛媛,
+  sum(case when pref_name = '高知' then population else 0 end) as 高知,
+  sum(case when pref_name in ('徳島', '香川', '愛媛', '高知') then population else 0 end) as 四国
 from
   poptbl2
 group by sex;
@@ -438,7 +443,7 @@ select
 from greatests
 ;
 
--- idea 2, correct but elephant
+-- idea 2, failure
 select id from greatests where id = 'B'
 union
 select id from greatests where id = 'A'

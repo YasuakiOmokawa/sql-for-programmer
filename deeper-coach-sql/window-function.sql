@@ -86,10 +86,10 @@ from
 select 
   sample_date as cur_date
   , min(sample_date) over w as latest_date
+  , sample_date - min(sample_date) over w as diff_date
   , load_val as cur_load
   , min(load_val) over w as latest_load
   , load_val - min(load_val) over w as diff_load
-  , sample_date - min(sample_date) over w as diff_date
 from
   loadsample
 window w as (

@@ -17,9 +17,11 @@ values
   ,(3, 'D', 'E', 'C', 'A', 'B')
 ;
 select * from foobar_18_3;
+
 -- Swap(c1, c2) and Swap(c4, c5) order by asc;
 update
-  foobar_18_3 f1, foobar_18_3 f2
+  foobar_18_3 f1,
+  foobar_18_3 f2
 set
   f1.c1 = case when f1.c1 <= f1.c2 then f1.c1 else f1.c2 end,
   f2.c2 = case when f2.c1 <= f2.c2 then f2.c2 else f2.c1 end,
@@ -29,13 +31,26 @@ where
   f1.c4 > f1.c5 or f1.c1 > f1.c2
 ;
 
+-- In PostgreSQL
+select 
+  case when c1 <= c2 then c1 else c2 end as c1
+--  f2.c2 = case when f2.c1 <= f2.c2 then f2.c2 else f2.c1 end,
+--  f1.c4 = case when f1.c4 <= f1.c5 then f1.c4 else f1.c5 end,
+--  f2.c5 = case when f2.c4 <= f2.c5 then f2.c5 else f2.c4 end
+from
+  foobar_18_3
+where
+  c4 > c5 or c1 > c2
+;
+
+
 -- swap(c1, c2)
 update
   foobar_18_3
 set
   c1 = c2, c2 = c1
--- where
---   c1 > c2
+ where
+   c1 > c2
 ;
 
 -- swap(x, y) and swap(x, z)
@@ -55,7 +70,34 @@ values
   ,(3, 'D', 'E', 'C')
   ,(4, 'A', 'C', 'B')
 ;
+
 select * from foobar_18_3_xyz;
+
+-- Success in PostgreSQL
+select
+  key_col 
+  , case when x between y and z then y
+    when z between y and x then y
+    when y between z and x then z
+    when x between z and y then z
+    else x end as x
+  , case
+    when x between y and z then x
+    when x between z and y then x
+    when z between x and y then z
+    else y end as y
+  , case
+    when x between z and y then y
+    when z between x and y then y
+    when y between z and x then x
+    when z between y and x then x
+    else z end as z
+from 
+  foobar_18_3_xyz
+order by 1
+;
+
+-- Success in MySQL
 update
   foobar_18_3_xyz f1,
   foobar_18_3_xyz f2,
@@ -78,6 +120,4 @@ set
           when f3.y between f3.z and f3.x then f3.x
           when f3.z between f3.y and f3.x then f3.x
           else f3.z end
-where
-  f1.x > f1.z or f1.x > f1.y
 ;
