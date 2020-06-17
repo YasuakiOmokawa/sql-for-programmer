@@ -129,4 +129,30 @@ window w_1day_before as (
 order by 1 asc
 ;
 
+-- Generalize diff rows
+select 
+  sample_date as cur_date,
+  min(sample_date) over (
+    order by sample_date asc 
+    rows between 1 preceding and 1 preceding ) as latest_1,
+  min(sample_date) over (
+    order by sample_date asc 
+    rows between 2 preceding and 2 preceding ) as latest_2,
+  min(sample_date) over ( 
+    order by sample_date asc 
+    rows between 3 preceding and 3 preceding ) as latest_3
+from 
+  loadsample;
+
+-- Inner algorithm of window function
+--   1. cutting record group with partition by
+--   2. ordering group with order by
+--   3. create subset around current record with frame
+
+
+  )
+  
+  )
+
+
 
