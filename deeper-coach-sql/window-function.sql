@@ -149,10 +149,16 @@ from
 --   2. ordering group with order by
 --   3. create subset around current record with frame
 
+-- exercise 2-1. Predicate result of window function
+drop table Serverloadsample;
+CREATE TABLE ServerLoadSample
+(server char(1) not null,
+ sample_date   DATE not null,
+ load_val      INTEGER NOT null,
+ primary key(server, sample_date)
+;
 
-  )
-  
-  )
+INSERT INTO LoadSample VALUES('2018-02-08',    780);
 
 
 
