@@ -151,14 +151,29 @@ from
 
 -- exercise 2-1. Predicate result of window function
 drop table Serverloadsample;
-CREATE TABLE ServerLoadSample
-(server char(1) not null,
+CREATE TABLE ServerLoadSample(
+ server        char(1) not null,
  sample_date   DATE not null,
- load_val      INTEGER NOT null,
+ load_val      INTEGER not null,
  primary key(server, sample_date)
-;
+);
+INSERT INTO ServerLoadSample VALUES('A', '2018-02-01', 1024);
+INSERT INTO ServerLoadSample VALUES('A', '2018-02-02', 2366);
+INSERT INTO ServerLoadSample VALUES('A', '2018-02-05', 2366);
+INSERT INTO ServerLoadSample VALUES('A', '2018-02-07', 985);
+INSERT INTO ServerLoadSample VALUES('A', '2018-02-08', 780);
+INSERT INTO ServerLoadSample VALUES('A', '2018-02-12', 1000);
+INSERT INTO ServerLoadSample VALUES('B', '2018-02-01', 54);
+INSERT INTO ServerLoadSample VALUES('B', '2018-02-02', 39008);
+INSERT INTO ServerLoadSample VALUES('B', '2018-02-05', 2900);
+INSERT INTO ServerLoadSample VALUES('B', '2018-02-07', 556);
+INSERT INTO ServerLoadSample VALUES('B', '2018-02-08', 12600);
+INSERT INTO ServerLoadSample VALUES('B', '2018-02-12', 7309);
+INSERT INTO ServerLoadSample VALUES('C', '2018-02-01', 1000);
+INSERT INTO ServerLoadSample VALUES('C', '2018-02-07', 2000);
+INSERT INTO ServerLoadSample VALUES('C', '2018-02-16', 500);
+select * from serverloadsample s ;
 
-INSERT INTO LoadSample VALUES('2018-02-08',    780);
 
 
 
