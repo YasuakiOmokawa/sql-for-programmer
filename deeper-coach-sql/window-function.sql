@@ -181,4 +181,13 @@ select
 from 
   serverloadsample;
 
+-- exercise 2-2. Predicate result of window function pattern 2
+select 
+  server,
+  sample_date,
+  sum(load_val) over (
+    partition by server) as sum_load
+from 
+  serverloadsample;
+
 
