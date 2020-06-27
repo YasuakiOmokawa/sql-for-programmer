@@ -174,6 +174,11 @@ INSERT INTO ServerLoadSample VALUES('C', '2018-02-07', 2000);
 INSERT INTO ServerLoadSample VALUES('C', '2018-02-16', 500);
 select * from serverloadsample s ;
 
-
+select 
+  server,
+  sample_date,
+  sum(load_val) over () as sum_load
+from 
+  serverloadsample;
 
 
