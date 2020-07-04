@@ -86,14 +86,35 @@ from
 
 -- search same price products
 select 
-  distinct a1.name,
-  a1.price
+  distinct p1.name,
+  p1.price
 from 
-  products a1 inner join products a2
-    on a1.price = a2.price 
-    and a1.name <> a2.name
+  products p1 inner join products p2
+    on p1.price = p2.price 
+    and p1.name <> p2.name
+order by 
+  p1.price 
 ;
 
+-- search same price products using correlated query
+select 
+  p1.name,
+  p1.price
+from 
+  products p1
+where 
+  exists (
+    select
+      *
+    from
+      products p2
+    where
+      p1.price = p2.price 
+      and p1.name <> p2.name       
+  )  
+order by 
+  p1.price 
+;
 
   
 
