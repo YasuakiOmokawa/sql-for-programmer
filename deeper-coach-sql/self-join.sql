@@ -116,8 +116,79 @@ order by
   p1.price 
 ;
 
-  
+-- column: create rank with window function
+select 
+  name,
+  price,
+  rank() over ( -- jump rank between over and over
+    order by price desc
+  ) as rank_1,
+  dense_rank() over ( -- ordered ranking
+    order by price desc
+  ) as rank_2  
+from 
+  products
+;
 
+-- exercise 3-1. duplicate variation
+select 
+  p1.name as name_1,
+  p2.name as name_2
+from  
+  products p1 inner join products p2
+    on p1.name <= p2.name
+order by name_1
+;
 
+-- exercise 3-2. catch duplicate row
+select
+  p1.name,
+  p1.price,
+  rank() over (order by p1.name, p1.price) as row_id1
+from
+  Duplicateproducts p1
+where exists (
+  select
+    p2.name,
+    p2.price,
+    rank() over (order by p1.name, p1.price) as row_id2
+  from
+    duplicateproducts p2
+  where
+    p1.name = p2.name
+    and p1.price = p2.price    
+    and row_id1 <> row_id2
+)
+;
 
+select * from duplicateproducts;
 
+select 
+  name,
+  price,
+  rank() over(order by name) as data_rank
+from 
+  duplicateproducts
+;
+
+CREATE TABLE dup_prods
+(name VARCHAR(16),
+ price INTEGER NOT null,
+ sales_price Integer not null
+);
+
+-- set data
+INSERT INTO dup_prods VALUES('りんご',  50, 100);
+INSERT INTO dup_prods VALUES('みかん',  100, 200);
+INSERT INTO dup_prods VALUES('みかん',  100, 250);
+INSERT INTO dup_prods VALUES('みかん',  100, 150);
+select * from dup_prods ;
+
+select 
+  name,
+  price,
+  sales_price,
+  rank() over (order by name, price, sales_price) as rank_1,
+  rank() over (order by name, price) as rank_2
+from dup_prods
+;
