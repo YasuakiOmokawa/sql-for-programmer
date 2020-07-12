@@ -192,3 +192,14 @@ select
   rank() over (order by name, price) as rank_2
 from dup_prods
 ;
+
+
+select 
+  name,
+  price,
+  row_number() over(
+    partition by name, price
+    order by name) as row_num
+from 
+  duplicateproducts
+;
