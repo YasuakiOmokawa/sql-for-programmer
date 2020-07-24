@@ -18,6 +18,7 @@ INSERT INTO class_b VALUES('山田',  20, '東京');
 INSERT INTO class_b VALUES('和泉',  18, '千葉');
 INSERT INTO class_b VALUES('武田',  20, '千葉');
 INSERT INTO class_b VALUES('石川',  19, '神奈川');
+INSERT INTO class_b VALUES('ぬる',  21, null);
 
 select * from class_a;
 select * from class_b;
@@ -35,3 +36,16 @@ where age < all(select
                   city = '東京');
 
                 
+-- exercise 4-1. null around result using order_by
+select * from class_b order by city;
+select * from class_b order by city is null asc;
+
+                
+-- exercise 4-2. concat to null
+SET sql_mode='PIPES_AS_CONCAT' ;
+select 'これは連結文字です' || null from dual;
+select null from dual;
+select name, city, '出身地は' || city from class_b;
+
+
+
