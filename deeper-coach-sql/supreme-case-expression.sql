@@ -506,3 +506,4 @@ from greatests
 order by sorted_col
 ;
 
+

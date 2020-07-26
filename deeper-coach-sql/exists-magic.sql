@@ -40,6 +40,7 @@ where
 ;
 
 -- search absences in meetings ptn.2: use diff group
+-- Enable for PostgreSQL, Oracle
 select 
   m1.meeting,
   m2.person
@@ -49,5 +50,62 @@ from
 except
   select meeting, person 
   from meetings
+;
+
+-- Get used about conversion con <-> nothing doing
+CREATE TABLE TestScores
+(student_id INTEGER,
+ subject    VARCHAR(32) ,
+ score      INTEGER,
+  PRIMARY KEY(student_id, subject));
+
+INSERT INTO TestScores VALUES(100, '算数',100);
+INSERT INTO TestScores VALUES(100, '国語',80);
+INSERT INTO TestScores VALUES(100, '理科',80);
+INSERT INTO TestScores VALUES(200, '算数',80);
+INSERT INTO TestScores VALUES(200, '国語',95);
+INSERT INTO TestScores VALUES(300, '算数',40);
+INSERT INTO TestScores VALUES(300, '国語',90);
+INSERT INTO TestScores VALUES(300, '社会',55);
+INSERT INTO TestScores VALUES(400, '算数',80);
+
+-- query 1
+select * from testscores ;
+
+select
+  distinct student_id
+from
+  testscores ts1
+where
+  not exists (
+  select
+    *
+  from
+    testscores ts2
+  where
+    ts2.student_id = ts1.student_id
+    and ts2.score < 50 )
+;
+
+
+-- query 2
+ select
+  distinct student_id
+from
+  testscores ts1
+where
+  subject in ('国語', '算数')
+  and not exists (
+  select
+    *
+  from
+    testscores ts2
+  where
+    ts2.student_id = ts1.student_id
+    and 1 =
+    case
+      when ts2.subject = '算数' and ts2.score < 80 then 1
+      when ts2.subject = '国語' and ts2.score < 50 then 1
+      else 0 end )
 ;
 
