@@ -109,3 +109,97 @@ where
       else 0 end )
 ;
 
+-- Remove id 400 by count multi row
+select
+  student_id
+from
+  testscores ts1
+where
+  subject in ('算数', '国語')
+  and not exists (
+    select
+      *
+    from
+      testscores ts2
+    where
+      ts2.student_id = ts1.student_id
+      and 1 =
+      case
+        when subject = '算数' and score < 80 then 1
+        when subject = '国語' and score < 50 then 1
+        else 0 end )
+group by
+  student_id
+having
+  count(*) = 2
+;
+
+-- group vs pronunce - which is greater ?
+CREATE TABLE Projects
+(project_id VARCHAR(32),
+ step_nbr   INTEGER ,
+ status     VARCHAR(32),
+  PRIMARY KEY(project_id, step_nbr));
+
+INSERT INTO Projects VALUES('AA100', 0, '完了');
+INSERT INTO Projects VALUES('AA100', 1, '待機');
+INSERT INTO Projects VALUES('AA100', 2, '待機');
+INSERT INTO Projects VALUES('B200',  0, '待機');
+INSERT INTO Projects VALUES('B200',  1, '待機');
+INSERT INTO Projects VALUES('CS300', 0, '完了');
+INSERT INTO Projects VALUES('CS300', 1, '完了');
+INSERT INTO Projects VALUES('CS300', 2, '待機');
+INSERT INTO Projects VALUES('CS300', 3, '待機');
+INSERT INTO Projects VALUES('DY400', 0, '完了');
+INSERT INTO Projects VALUES('DY400', 1, '完了');
+INSERT INTO Projects VALUES('DY400', 2, '完了');
+
+select * from projects;
+select count(*) from projects;
+
+-- the way of serko
+select
+  project_id
+from
+  projects
+group by
+  project_id
+having
+  count(*) = sum(case when step_nbr <= 1 and status = '完了' then 1 when step_nbr > 1 and status = '待機' then 1 else 0 end);
+
+-- universal proposition
+/* step_status = case when step_nbr <= 1
+              then '完了'
+              else '待機' end
+*/
+
+-- using universal proposition
+select
+  *
+from
+  projects p1
+where
+  not exists (
+    select
+      status
+    from
+      projects p2
+    where
+      p1.project_id = p2.project_id
+      and status <>
+      case
+        when step_nbr <= 1 then '完了'
+        else '待機' end);
+
+
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
