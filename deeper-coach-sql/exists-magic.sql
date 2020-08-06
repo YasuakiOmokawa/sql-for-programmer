@@ -174,6 +174,9 @@ having
 */
 
 -- using universal proposition
+-- 直感的ではないものの、こちらのほうがパフォーマンスがいい。
+--   1. 結合条件でproject_id列のインデックスが使える
+--   2. 1行でも条件を満たさない行があれば検索を打ち切ることができる
 select
   *
 from
@@ -185,21 +188,53 @@ where
     from
       projects p2
     where
-      p1.project_id = p2.project_id
+      p1.project_id = p2.project_id -- プロジェクトごとに条件を調べる
+      -- 全称文を二重否定で表現
       and status <>
       case
         when step_nbr <= 1 then '完了'
         else '待機' end);
 
 
+-- 列に対する量化
+/* 列に対する量化：オール１の行を探せ */
+CREATE TABLE ArrayTbl
+ (keycol CHAR(1) PRIMARY KEY,
+  col1  INTEGER,
+  col2  INTEGER,
+  col3  INTEGER,
+  col4  INTEGER,
+  col5  INTEGER,
+  col6  INTEGER,
+  col7  INTEGER,
+  col8  INTEGER,
+  col9  INTEGER,
+  col10 INTEGER);
 
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+--オールNULL
+INSERT INTO ArrayTbl VALUES('A', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO ArrayTbl VALUES('B', 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+--オール1
+INSERT INTO ArrayTbl VALUES('C', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+--少なくとも一つは9
+INSERT INTO ArrayTbl VALUES('D', NULL, NULL, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO ArrayTbl VALUES('E', NULL, 3, NULL, 1, 9, NULL, NULL, 9, NULL, NULL);
+
+select * from arraytbl;
+
+-- 全部１
+select * 
+from arraytbl 
+where 1 = all(array[col1, col2, col3, col4, col5, col6, col7, col8, col9, col10]);
+
+-- 少なくとも１つは9 - any
+select * 
+from arraytbl 
+where 9 = any(array[col1, col2, col3, col4, col5, col6, col7, col8, col9, col10]);
+
+-- 少なくとも１つは9 - in
+select * 
+from arraytbl 
+where 9 in (col1, col2, col3, col4, col5, col6, col7, col8, col9, col10);
+
+
