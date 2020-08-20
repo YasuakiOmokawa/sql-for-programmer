@@ -237,4 +237,54 @@ select *
 from arraytbl 
 where 9 in (col1, col2, col3, col4, col5, col6, col7, col8, col9, col10);
 
+-- 演習1
+drop table arraytbl2;
+CREATE TABLE ArrayTbl2
+ (keycol CHAR(1),
+  i  INTEGER,
+  val  INTEGER,
+  PRIMARY KEY(keycol, i));
+
+INSERT INTO ArrayTbl2 VALUES('A',1,null);
+INSERT INTO ArrayTbl2 VALUES('A',2,null);
+INSERT INTO ArrayTbl2 VALUES('A',3,null);
+INSERT INTO ArrayTbl2 VALUES('A',4,null);
+INSERT INTO ArrayTbl2 VALUES('A',5,null);
+INSERT INTO ArrayTbl2 VALUES('A',6,null);
+INSERT INTO ArrayTbl2 VALUES('A',7,null);
+INSERT INTO ArrayTbl2 VALUES('A',8,null);
+INSERT INTO ArrayTbl2 VALUES('A',9,null);
+INSERT INTO ArrayTbl2 VALUES('A',10,null);
+INSERT INTO ArrayTbl2 VALUES('B',1,3);
+INSERT INTO ArrayTbl2 VALUES('B',2,null);
+INSERT INTO ArrayTbl2 VALUES('B',3,null);
+INSERT INTO ArrayTbl2 VALUES('B',4,null);
+INSERT INTO ArrayTbl2 VALUES('B',5,null);
+INSERT INTO ArrayTbl2 VALUES('B',6,null);
+INSERT INTO ArrayTbl2 VALUES('B',7,null);
+INSERT INTO ArrayTbl2 VALUES('B',8,null);
+INSERT INTO ArrayTbl2 VALUES('B',9,null);
+INSERT INTO ArrayTbl2 VALUES('B',10,null);
+INSERT INTO ArrayTbl2 VALUES('C',1,1);
+INSERT INTO ArrayTbl2 VALUES('C',2,1);
+INSERT INTO ArrayTbl2 VALUES('C',3,1);
+INSERT INTO ArrayTbl2 VALUES('C',4,1);
+INSERT INTO ArrayTbl2 VALUES('C',5,1);
+INSERT INTO ArrayTbl2 VALUES('C',6,1);
+INSERT INTO ArrayTbl2 VALUES('C',7,1);
+INSERT INTO ArrayTbl2 VALUES('C',8,1);
+INSERT INTO ArrayTbl2 VALUES('C',9,1);
+INSERT INTO ArrayTbl2 VALUES('C',10,1);
+
+select * from arraytbl2 ;
+
+
+
+
+
+
+
+
+
+
 
