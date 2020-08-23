@@ -278,6 +278,20 @@ INSERT INTO ArrayTbl2 VALUES('C',10,1);
 
 select * from arraytbl2 ;
 
+select
+  *
+from
+  arraytbl2 a
+where
+  not exists (
+  select
+    1
+  from
+    arraytbl2 a2
+  where
+    a.keycol = a2.keycol
+    and a.i = a2.i
+    and a2.val <> 1);
 
 
 
