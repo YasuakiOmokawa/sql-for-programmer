@@ -278,6 +278,7 @@ INSERT INTO ArrayTbl2 VALUES('C',10,1);
 
 select * from arraytbl2 ;
 
+-- wrong
 select
   *
 from
@@ -292,6 +293,39 @@ where
     a.keycol = a2.keycol
     and a.i = a2.i
     and a2.val <> 1);
+
+  
+-- correct   
+select
+  distinct keycol
+from
+  arraytbl2 a1
+where
+  not exists (
+  select
+    *
+  from
+    arraytbl2 a2
+  where
+    a1.keycol = a2.keycol
+    and (a2.val <> 1
+    or a2.val is null) ) ;
+
+
+-- 別解1: ALL述語の利用
+select
+  distinct keycol
+from
+  arraytbl2 a1
+where
+  1 = all (
+  select
+    val
+  from
+    arraytbl2 a2
+  where
+    a1.keycol = a2.keycol );
+
 
 
 
